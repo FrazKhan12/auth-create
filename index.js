@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import User from "../modal/userModal.js";
+import User from "../model/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 // Sample content for the files
 const controllerContent = `
 // userController.js
-import User from "./modal/userModal.js";
+import User from "../model/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -171,7 +171,7 @@ export default dbConnect;
 `;
 
 // Main postinstall script
-const folders = ["routes", "models", "controllers", "config"];
+const folders = ["routes", "model", "controllers", "config"];
 
 folders.forEach((folder) => {
   const folderPath = path.join(__dirname, folder);
@@ -190,14 +190,14 @@ execSync("npm install express mongoose nodemon dotenv");
 
 // Create controller, route, and model files with sample content
 const filesToCreate = [
+  { folder: "config", file: "dbConfig.js", content: configContent },
+  { folder: "model", file: "userModal.js", content: modelContent },
+  { folder: "routes", file: "userRoute.js", content: routeContent },
   {
     folder: "controllers",
     file: "userController.js",
     content: controllerContent,
   },
-  { folder: "routes", file: "userRoute.js", content: routeContent },
-  { folder: "models", file: "userModel.js", content: modelContent },
-  { folder: "config", file: "dbConfig.js", content: configContent },
 ];
 
 filesToCreate.forEach(({ folder, file, content }) => {
