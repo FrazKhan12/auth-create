@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import User from "./modal/userModal.js";
+import User from "./userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 // Sample content for the files
 const controllerContent = `
 // userController.js
-import User from "./modal/userModal.js";
+import User from "./userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -88,7 +88,7 @@ const routeContent = `
 // userRoute.js
 import express from "express";
 const router = express.Router();
-import { userLogin, userRegister } from "./controller/authController.js";
+import { userLogin, userRegister } from "./authController.js";
 
 router.post("/register", userRegister);
 router.post("/login", userLogin);
