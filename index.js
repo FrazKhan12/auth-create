@@ -1,21 +1,21 @@
 // postinstall.js
 
-import fs from "fs";
-import path from "path";
-import { execSync } from "child_process";
-import User from "./userModal.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+// postinstall.js
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
+const User = require(path.join(__dirname, "userModal.js"));
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 // Sample content for the files
 const controllerContent = `
 // userController.js
-import User from "./userModal.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-dotenv.config();
+const User = require(path.join(__dirname, "userModal.js"));
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 export const userRegister = async (req, res) => {
   try {
@@ -86,20 +86,20 @@ export const userLogin = async (req, res) => {
 
 const routeContent = `
 // userRoute.js
-import express from "express";
+const express = require('express');
 const router = express.Router();
-import { userLogin, userRegister } from "./authController.js";
+const { userLogin, userRegister } = require("../controller/authController.js");
 
 router.post("/register", userRegister);
 router.post("/login", userLogin);
 
-export default router;
+module.exports = router;
 `;
 
 const modelContent = `
 // userModel.js
-import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const schema = mongoose.Schema;
 
@@ -147,13 +147,13 @@ userSchema.pre("save", async function (next) {
 
 const userModal = new mongoose.model("users", userSchema);
 
-export default userModal;
+module.exports = userModal;
 `;
 
 const configContent = `
 // dbConfig.js
-import mongoose from "mongoose";
-import dotenv from "dotenv";
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 dotenv.config();
 
 const dbConnect = async () => {
@@ -167,7 +167,7 @@ const dbConnect = async () => {
   }
 };
 
-export default dbConnect;
+module.exports = dbConnect;
 `;
 
 // Main postinstall script
