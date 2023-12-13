@@ -3,53 +3,14 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-
-const folders = ["routes", "models", "controllers", "config"];
-
-folders.forEach((folder) => {
-  const folderPath = path.join(__dirname, folder);
-
-  if (!fs.existsSync(folderPath)) {
-    fs.mkdirSync(folderPath);
-    console.log(`Created ${folder} folder`);
-  } else {
-    console.log(`${folder} folder already exists`);
-  }
-});
-
-// Install necessary npm packages
-console.log("Installing dependencies...");
-execSync("npm install express mongoose nodemon dotenv");
-
-// Create controller, route, and model files with sample content
-const filesToCreate = [
-  {
-    folder: "controllers",
-    file: "userController.js",
-    content: controllerContent,
-  },
-  { folder: "routes", file: "userRoute.js", content: routeContent },
-  { folder: "models", file: "userModel.js", content: modelContent },
-  { folder: "config", file: "dbConfig.js", content: configContent },
-];
-
-filesToCreate.forEach(({ folder, file, content }) => {
-  const filePath = path.join(__dirname, folder, file);
-
-  if (!fs.existsSync(filePath)) {
-    fs.writeFileSync(filePath, content);
-    console.log(`Created ${file} in ${folder} folder`);
-  } else {
-    console.log(`${file} already exists in ${folder} folder`);
-  }
-});
-
-console.log("Setup complete.");
+import User from "../modal/userModal.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 // Sample content for the files
 const controllerContent = `
 // userController.js
-
 import User from "../modal/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -121,7 +82,6 @@ export const userLogin = async (req, res) => {
   }
 };
 
-
 `;
 
 const routeContent = `
@@ -130,12 +90,10 @@ import express from "express";
 const router = express.Router();
 import { userLogin, userRegister } from "../controller/authController.js";
 
-
 router.post("/register", userRegister);
 router.post("/login", userLogin);
 
 export default router;
-
 `;
 
 const modelContent = `
@@ -190,10 +148,10 @@ userSchema.pre("save", async function (next) {
 const userModal = new mongoose.model("users", userSchema);
 
 export default userModal;
-
 `;
 
 const configContent = `
+// dbConfig.js
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
@@ -202,7 +160,7 @@ const dbConnect = async () => {
   try {
     const data = await mongoose.connect(process.env.MONGO_URI);
     if (data) {
-      console.log("Database connected Successfullu");
+      console.log("Database connected successfully");
     }
   } catch (error) {
     console.log("Database connection error");
@@ -210,5 +168,47 @@ const dbConnect = async () => {
 };
 
 export default dbConnect;
-
 `;
+
+// Main postinstall script
+const folders = ["routes", "models", "controllers", "config"];
+
+folders.forEach((folder) => {
+  const folderPath = path.join(__dirname, folder);
+
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath);
+    console.log(`Created ${folder} folder`);
+  } else {
+    console.log(`${folder} folder already exists`);
+  }
+});
+
+// Install necessary npm packages
+console.log("Installing dependencies...");
+execSync("npm install express mongoose nodemon dotenv");
+
+// Create controller, route, and model files with sample content
+const filesToCreate = [
+  {
+    folder: "controllers",
+    file: "userController.js",
+    content: controllerContent,
+  },
+  { folder: "routes", file: "userRoute.js", content: routeContent },
+  { folder: "models", file: "userModel.js", content: modelContent },
+  { folder: "config", file: "dbConfig.js", content: configContent },
+];
+
+filesToCreate.forEach(({ folder, file, content }) => {
+  const filePath = path.join(__dirname, folder, file);
+
+  if (!fs.existsSync(filePath)) {
+    fs.writeFileSync(filePath, content);
+    console.log(`Created ${file} in ${folder} folder`);
+  } else {
+    console.log(`${file} already exists in ${folder} folder`);
+  }
+});
+
+console.log("Setup complete.");
