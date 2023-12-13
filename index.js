@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import User from "../modal/userModal.js";
+import User from "./modal/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
