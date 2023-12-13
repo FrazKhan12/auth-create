@@ -3,7 +3,7 @@
 import fs from "fs";
 import path from "path";
 import { execSync } from "child_process";
-import User from "../model/userModal.js";
+import User from "./model/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -11,7 +11,7 @@ import dotenv from "dotenv";
 // Sample content for the files
 const controllerContent = `
 // userController.js
-import User from "../model/userModal.js";
+import User from "./model/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
