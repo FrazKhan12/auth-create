@@ -48,8 +48,8 @@ console.log("Setup complete.");
 // Sample content for the files
 const controllerContent = `
 // userController.js
-class UserController {
- import User from "../modal/userModal.js";
+
+import User from "../modal/userModal.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -120,14 +120,12 @@ export const userLogin = async (req, res) => {
   }
 };
 
-}
 
-module.exports = UserController;
 `;
 
 const routeContent = `
 // userRoute.js
-const express = require('express');
+import express from "express";
 const router = express.Router();
 import { userLogin, userRegister } from "../controller/authController.js";
 
@@ -137,8 +135,6 @@ router.post("/login", userLogin);
 
 export default router;
 
-
-module.exports = router;
 `;
 
 const modelContent = `
